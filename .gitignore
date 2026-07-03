@@ -14,3 +14,5 @@ data/uploads
 .github
 .codex
 tsconfig.tsbuildinfo
+
+COMMANDS.md
