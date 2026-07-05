@@ -10,6 +10,7 @@
 ![OpenAI](https://img.shields.io/badge/OpenAI-000000?style=for-the-badge&logo=openai&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 ![S3 Compatible](https://img.shields.io/badge/S3%20Compatible-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 This app is a Next.js document workspace for uploading PDFs, ingesting their contents, querying them with AI, and chatting per document.
 
