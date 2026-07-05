@@ -1,45 +1,20 @@
-![Next.js 16](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+<p align="center">
+  <img src="public/icon.png" alt="GPT Runner icon" width="160" />
+</p>
+
+<p align="center"><strong>Doc LLM</strong></p>
+
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-000000?style=for-the-badge&logo=openai&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
-![S3 Compatible](https://img.shields.io/badge/S3--Compatible-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
+![S3 Compatible](https://img.shields.io/badge/S3%20Compatible-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
 
-![Lint](https://img.shields.io/badge/npm%20run%20lint-passes-brightgreen?style=for-the-badge&logo=eslint&logoColor=white)
-![Typecheck](https://img.shields.io/badge/npm%20run%20typecheck-passes-brightgreen?style=for-the-badge&logo=typescript&logoColor=white)
-![Unit Tests](https://img.shields.io/badge/npm%20run%20test%3Aunit-passes-brightgreen?style=for-the-badge&logo=vitest&logoColor=white)
-![Integration Tests](https://img.shields.io/badge/npm%20run%20test%3Aintegration-passes-brightgreen?style=for-the-badge&logo=vitest&logoColor=white)
-![E2E Tests](https://img.shields.io/badge/npm%20run%20test%3Ae2e-passes-brightgreen?style=for-the-badge&logo=playwright&logoColor=white)
+This app is a Next.js document workspace for uploading PDFs, ingesting their contents, querying them with AI, and chatting per document.
 
-# The App
-
-Note: `This is not the finished product yet.`
-
-Today, it gives you:
-
-- A Next.js app with a landing page, credentials sign-in, protected dashboard, upload page,
-  document query page, and per-document chat pages
-- A user-scoped document access, so dashboards, uploads, queries, and chat history stay tied to the
-  authenticated owner
-- PDF upload with client and server validation, configurable size limits, unique per-user titles,
-  storage-backed records, and automatic ingestion job creation
-- Local filesystem storage by default, plus an S3-compatible storage adapter with endpoint,
-  path-style, bucket, credential, and prefix configuration
-- PostgreSQL schemas for users, documents, document chunks, ingestion jobs, chat messages, and
-  asynchronous chat jobs
-- a worker that runs ingestion and document-chat job loops, claims queued work with
-  `SKIP LOCKED`, records failures, and retries retryable ingestion errors
-- PDF text extraction, chunking, embedding generation, and pgvector-backed semantic retrieval
-- A library-wide document Q&A with optional PDF scoping and matched chunk scores returned with every
-  answer
-- A per-document chat that saves user and assistant messages, generates answers from that PDF's
-  retrieved chunks, and pushes completion/failure updates over server-sent events
-- An OpenAI-compatible AI layer that uses Ollama embeddings by default and can generate text through
-  OpenRouter or OpenAI
-- Docker Compose support for pgvector PostgreSQL, the development app, the worker, and a
-  production-style app container
-- Unit, integration, live connection, and Playwright end-to-end checks for auth, upload, storage,
-  ingestion, retrieval, chat, and protected browser flows
-
-# How To Load Up The App
+# Setup
 
 ## 1. Install dependencies
 
@@ -219,3 +194,5 @@ Commands:
 npx playwright install
 npx playwright test
 ```
+
+The full technical breakdown now lives in [docs/app-overview.md](docs/app-overview.md).
