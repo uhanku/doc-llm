@@ -2,7 +2,7 @@
   <img src="public/icon.png" alt="GPT Runner icon" width="160" />
 </p>
 
-<p align="center"><strong>Doc LLM</strong></p>
+<p align="center"><strong>DOC LLM</strong></p>
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
@@ -12,7 +12,7 @@
 ![S3 Compatible](https://img.shields.io/badge/S3%20Compatible-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-This app is a Next.js document workspace for uploading PDFs, ingesting their contents, querying them with AI, and chatting per document.
+DOC LLM helps you upload PDFs, understand their content, and chat with each document using AI.
 
 # Setup
 
