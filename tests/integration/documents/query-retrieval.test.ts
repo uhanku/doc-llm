@@ -83,7 +83,7 @@ async function ingestPdfFixtureForSeededUser() {
 }
 
 describe("embedding chunk retrieval integration", () => {
-  it("ingests demon_slayer_comments.pdf with Ollama embeddings and retrieves relevant pgvector chunks", async () => {
+  it("ingests demon_slayer_comments.pdf with OpenRouter embeddings and retrieves relevant pgvector chunks", async () => {
     const sampleEmbedding = await createOpenAIService().createEmbeddings([
       question,
     ]);

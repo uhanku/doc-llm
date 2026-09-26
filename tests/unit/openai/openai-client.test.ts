@@ -1,7 +1,7 @@
 const openAIClient = {
   embeddings: {
     create: vi.fn(async () => ({
-      data: [{ embedding: Array.from({ length: 768 }, () => 0.1) }],
+      data: [{ embedding: Array.from({ length: 1536 }, () => 0.1) }],
     })),
   },
   responses: {
@@ -32,9 +32,8 @@ describe("createOpenAIClient", () => {
     OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
     OPENROUTER_BASE_URL: process.env.OPENROUTER_BASE_URL,
     OPENROUTER_MODEL: process.env.OPENROUTER_MODEL,
-    EMBEDDING_API_KEY: process.env.EMBEDDING_API_KEY,
-    EMBEDDING_BASE_URL: process.env.EMBEDDING_BASE_URL,
-    EMBEDDING_MODEL: process.env.EMBEDDING_MODEL,
+    OPENROUTER_EMBEDDING_MODEL: process.env.OPENROUTER_EMBEDDING_MODEL,
+    EMBEDDING_DIMENSION: process.env.EMBEDDING_DIMENSION,
   };
 
   afterEach(() => {
@@ -44,22 +43,25 @@ describe("createOpenAIClient", () => {
     restoreEnvValue("OPENROUTER_API_KEY", originalEnv.OPENROUTER_API_KEY);
     restoreEnvValue("OPENROUTER_BASE_URL", originalEnv.OPENROUTER_BASE_URL);
     restoreEnvValue("OPENROUTER_MODEL", originalEnv.OPENROUTER_MODEL);
-    restoreEnvValue("EMBEDDING_API_KEY", originalEnv.EMBEDDING_API_KEY);
-    restoreEnvValue("EMBEDDING_BASE_URL", originalEnv.EMBEDDING_BASE_URL);
-    restoreEnvValue("EMBEDDING_MODEL", originalEnv.EMBEDDING_MODEL);
+    restoreEnvValue(
+      "OPENROUTER_EMBEDDING_MODEL",
+      originalEnv.OPENROUTER_EMBEDDING_MODEL,
+    );
+    restoreEnvValue("EMBEDDING_DIMENSION", originalEnv.EMBEDDING_DIMENSION);
   });
 
-  it("configures embeddings for the local nomic-embed-text service", async () => {
+  it("configures embeddings for the OpenRouter embedding endpoint", async () => {
     vi.resetModules();
-    process.env.EMBEDDING_API_KEY = "ollama";
-    process.env.EMBEDDING_BASE_URL = "http://127.0.0.1:11434/v1";
-    process.env.EMBEDDING_MODEL = "nomic-embed-text";
+    process.env.OPENROUTER_API_KEY = "test-openrouter-key";
+    process.env.OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
+    process.env.OPENROUTER_EMBEDDING_MODEL = "openai/text-embedding-3-small";
+    process.env.EMBEDDING_DIMENSION = "1536";
 
-    const { createEmbeddingClient } =
+    const { createOpenRouterClient } =
       await import("@/lib/services/openai/client");
     const { OpenAIService } = await import("@/lib/services/openai/service");
 
-    const client = createEmbeddingClient();
+    const client = createOpenRouterClient();
     const service = new OpenAIService({
       embedding: client,
       openAI: { responses: { create: vi.fn() } },
@@ -69,12 +71,13 @@ describe("createOpenAIClient", () => {
     await service.createEmbeddings(["connection check"]);
 
     expect(mocks.OpenAI).toHaveBeenCalledWith({
-      apiKey: "ollama",
-      baseURL: "http://127.0.0.1:11434/v1",
+      apiKey: "test-openrouter-key",
+      baseURL: "https://openrouter.ai/api/v1",
     });
     expect(openAIClient.embeddings.create).toHaveBeenCalledWith({
-      model: "nomic-embed-text",
+      model: "openai/text-embedding-3-small",
       input: ["connection check"],
+      dimensions: 1536,
     });
   });
 

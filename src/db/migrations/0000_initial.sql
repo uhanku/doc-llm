@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS "document_chunks" (
   "content" text NOT NULL,
   "token_count" integer NOT NULL,
   "metadata" jsonb DEFAULT '{}'::jsonb NOT NULL,
-  "embedding" vector(768) NOT NULL,
+  "embedding" vector(1536) NOT NULL,
   "created_at" timestamptz DEFAULT now() NOT NULL
 );
 

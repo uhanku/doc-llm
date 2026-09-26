@@ -3,7 +3,6 @@ import type OpenAI from "openai";
 import { DEFAULT_EMBEDDING_DIMENSION } from "@/lib/constants";
 import { env } from "@/lib/env";
 import {
-  createEmbeddingClient,
   createOpenAIClient,
   createOpenRouterClient,
 } from "@/lib/services/openai/client";
@@ -23,8 +22,9 @@ export class OpenAIService {
     }
 
     const response = await this.clients.embedding.embeddings.create({
-      model: env.EMBEDDING_MODEL,
+      model: env.OPENROUTER_EMBEDDING_MODEL,
       input,
+      dimensions: env.EMBEDDING_DIMENSION,
     });
 
     return response.data.map((item) => {
@@ -120,12 +120,13 @@ let openAIService: OpenAIService | undefined;
 
 export function createOpenAIService(): OpenAIService {
   if (!openAIService) {
+    const openRouter = createOpenRouterClient();
     const clients: OpenAIServiceClients = {
-      embedding: createEmbeddingClient(),
+      embedding: openRouter,
     };
 
     if (env.LLM_PROVIDER === "openrouter") {
-      clients.openRouter = createOpenRouterClient();
+      clients.openRouter = openRouter;
     } else {
       clients.openAI = createOpenAIClient();
     }

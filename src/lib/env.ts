@@ -51,9 +51,10 @@ const envSchema = z
       .url()
       .default("https://openrouter.ai/api/v1"),
     OPENROUTER_MODEL: optionalEnvString(z.string().min(1)),
-    EMBEDDING_API_KEY: z.string().min(1).default("ollama"),
-    EMBEDDING_BASE_URL: z.string().url().default("http://127.0.0.1:11434/v1"),
-    EMBEDDING_MODEL: z.string().min(1).default("nomic-embed-text"),
+    OPENROUTER_EMBEDDING_MODEL: z
+      .string()
+      .min(1)
+      .default("openai/text-embedding-3-small"),
     EMBEDDING_DIMENSION: z.coerce
       .number()
       .int()
@@ -93,8 +94,9 @@ const envSchema = z
     DEMO_USER_PASSWORD: z.string().min(8),
   })
   .superRefine((value, context) => {
+    requireProviderEnv(context, "OPENROUTER_API_KEY", value.OPENROUTER_API_KEY);
+
     if (value.LLM_PROVIDER === "openrouter") {
-      requireProviderEnv(context, "OPENROUTER_API_KEY", value.OPENROUTER_API_KEY);
       requireProviderEnv(context, "OPENROUTER_MODEL", value.OPENROUTER_MODEL);
       return;
     }

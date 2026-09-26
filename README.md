@@ -28,23 +28,21 @@ npm install
 cp .env.example .env
 ```
 
-Embeddings default to Ollama's OpenAI-compatible endpoint. Before running the worker, make sure
-Ollama is running locally and the model is available:
-
-```bash
-ollama pull nomic-embed-text
-```
-
-Text generation defaults to OpenRouter. Set these values in `.env`:
+Text generation and embeddings both default to OpenRouter. Set these values in `.env`:
 
 ```bash
 LLM_PROVIDER=openrouter
 OPENROUTER_API_KEY=your-openrouter-key
 OPENROUTER_MODEL=openai/gpt-5-mini
+OPENROUTER_EMBEDDING_MODEL=openai/text-embedding-3-small
 ```
 
-To use OpenAI directly instead, set `LLM_PROVIDER=openai` and configure `OPENAI_API_KEY` plus
-`OPENAI_GENERATION_MODEL`.
+`OPENROUTER_API_KEY` is required even when `LLM_PROVIDER=openai`, because embeddings always go
+through OpenRouter. `EMBEDDING_DIMENSION` must stay at `1536` to match the `vector(1536)` column
+that `npm run db:migrate` creates.
+
+To use OpenAI directly for generation instead, set `LLM_PROVIDER=openai` and configure
+`OPENAI_API_KEY` plus `OPENAI_GENERATION_MODEL`.
 
 ## 3. Start PostgreSQL with pgvector
 
@@ -160,12 +158,7 @@ Requirements:
 - PostgreSQL running
 - `TEST_DATABASE_URL` reachable
 - migrations available
-- Ollama running at `EMBEDDING_BASE_URL`
-- `nomic-embed-text` pulled in Ollama:
-
-```bash
-ollama pull nomic-embed-text
-```
+- a valid `OPENROUTER_API_KEY`, because the retrieval test generates real embeddings
 
 Command:
 

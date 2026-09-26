@@ -65,11 +65,10 @@ export function applyTestEnv() {
       process.env.OPENROUTER_BASE_URL ?? "https://openrouter.ai/api/v1",
     OPENROUTER_MODEL:
       process.env.OPENROUTER_MODEL ?? "openai/gpt-5-mini",
-    EMBEDDING_API_KEY: process.env.EMBEDDING_API_KEY ?? "ollama",
-    EMBEDDING_BASE_URL:
-      process.env.EMBEDDING_BASE_URL ?? "http://127.0.0.1:11434/v1",
-    EMBEDDING_MODEL: process.env.EMBEDDING_MODEL ?? "nomic-embed-text",
-    EMBEDDING_DIMENSION: process.env.EMBEDDING_DIMENSION ?? "768",
+    OPENROUTER_EMBEDDING_MODEL:
+      process.env.OPENROUTER_EMBEDDING_MODEL ??
+      "openai/text-embedding-3-small",
+    EMBEDDING_DIMENSION: process.env.EMBEDDING_DIMENSION ?? "1536",
     STORAGE_BACKEND:
       process.env.STORAGE_BACKEND ??
       process.env.OBJECT_STORAGE_DRIVER ??

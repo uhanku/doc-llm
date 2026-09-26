@@ -4,7 +4,7 @@
 - The local storage driver resolves all writes beneath `STORAGE_LOCAL_DIR` and rejects traversal attempts.
 - The S3 storage driver writes private objects by default. Keep buckets private and add signed access only when you intentionally need file delivery.
 - Before production, add deeper file signature validation and malware scanning on top of the current PDF validation.
-- User-submitted content will be sent to OpenAI for embeddings and generation. Review privacy, retention, and data handling requirements for your product.
+- User-submitted content will be sent to OpenRouter for embeddings and generation. Review privacy, retention, and data handling requirements for your product.
 
 # API and abuse prevention
 
