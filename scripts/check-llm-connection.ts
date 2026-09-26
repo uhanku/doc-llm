@@ -1,22 +1,19 @@
 import "dotenv/config";
 
 async function main() {
-  const { env } = await import("../src/lib/env");
-  const { createOpenAIService } = await import(
-    "../src/lib/services/openai/service"
-  );
+  const { createLLMService } = await import("../src/lib/services/llm/service");
 
-  const service = createOpenAIService();
+  const service = createLLMService();
   const response = await service.generateText({
     instructions: "Reply with exactly: ok",
     input: "Connection check.",
   });
 
   if (response.length === 0) {
-    throw new Error(`${env.LLM_PROVIDER} returned an empty response.`);
+    throw new Error("OpenRouter returned an empty response.");
   }
 
-  console.log(`${env.LLM_PROVIDER} connection succeeded.`);
+  console.log("OpenRouter connection succeeded.");
   console.log(`Model response: ${response}`);
 }
 

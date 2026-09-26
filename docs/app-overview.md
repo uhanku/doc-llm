@@ -21,8 +21,7 @@ This app is a Next.js document workspace for uploading PDFs, ingesting their con
   answer
 - A per-document chat that saves user and assistant messages, generates answers from that PDF's
   retrieved chunks, and pushes completion/failure updates over server-sent events
-- An OpenAI-compatible AI layer that generates embeddings and text through OpenRouter by default,
-  with direct OpenAI generation as an alternative
+- An OpenAI-compatible AI layer that generates embeddings and text through OpenRouter
 - Docker Compose support for pgvector PostgreSQL, the development app, the worker, and a
   production-style app container
 - Unit, integration, live connection, and Playwright end-to-end checks for auth, upload, storage,

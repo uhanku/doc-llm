@@ -28,21 +28,16 @@ npm install
 cp .env.example .env
 ```
 
-Text generation and embeddings both default to OpenRouter. Set these values in `.env`:
+Text generation and embeddings both go through OpenRouter. Set these values in `.env`:
 
 ```bash
-LLM_PROVIDER=openrouter
 OPENROUTER_API_KEY=your-openrouter-key
 OPENROUTER_MODEL=openai/gpt-5-mini
 OPENROUTER_EMBEDDING_MODEL=openai/text-embedding-3-small
 ```
 
-`OPENROUTER_API_KEY` is required even when `LLM_PROVIDER=openai`, because embeddings always go
-through OpenRouter. `EMBEDDING_DIMENSION` must stay at `1536` to match the `vector(1536)` column
-that `npm run db:migrate` creates.
-
-To use OpenAI directly for generation instead, set `LLM_PROVIDER=openai` and configure
-`OPENAI_API_KEY` plus `OPENAI_GENERATION_MODEL`.
+`EMBEDDING_DIMENSION` must stay at `1536` to match the `vector(1536)` column that
+`npm run db:migrate` creates.
 
 ## 3. Start PostgreSQL with pgvector
 
@@ -146,7 +141,7 @@ npm run test:s3:connection
 npm run test:live
 ```
 
-`test:llm:connection` checks the app's configured generation provider. `test:openrouter:connection`
+`test:llm:connection` checks the app's OpenRouter generation path. `test:openrouter:connection`
 checks OpenRouter directly. `test:live` runs all live connection checks in sequence.
 
 ## Integration tests

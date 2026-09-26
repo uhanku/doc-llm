@@ -34,7 +34,7 @@ describe("runWorkerIteration", () => {
     });
     const processor = new IngestionProcessor({
       extractor: new TextExtractionService(),
-      openAI: {
+      llm: {
         createEmbeddings: vi.fn(async (input: string[]) =>
           input.map(() =>
             Array.from({ length: DEFAULT_EMBEDDING_DIMENSION }, () => 0.1),
@@ -125,7 +125,7 @@ describe("runWorkerIteration", () => {
     });
     const processor = new IngestionProcessor({
       extractor: new TextExtractionService(),
-      openAI: {
+      llm: {
         createEmbeddings: vi.fn(async (input: string[]) =>
           input.map(() =>
             Array.from({ length: DEFAULT_EMBEDDING_DIMENSION }, () => 0.1),

@@ -55,10 +55,6 @@ export function applyTestEnv() {
     TEST_DATABASE_URL: process.env.TEST_DATABASE_URL ?? testDatabaseUrl,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET ?? "test-secret",
     NEXTAUTH_URL: nextAuthUrl,
-    LLM_PROVIDER: process.env.LLM_PROVIDER ?? "openrouter",
-    OPENAI_API_KEY: process.env.OPENAI_API_KEY ?? "test-openai-key",
-    OPENAI_GENERATION_MODEL:
-      process.env.OPENAI_GENERATION_MODEL ?? "gpt-5-mini",
     OPENROUTER_API_KEY:
       process.env.OPENROUTER_API_KEY ?? "test-openrouter-key",
     OPENROUTER_BASE_URL:

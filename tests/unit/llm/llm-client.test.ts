@@ -4,9 +4,6 @@ const openAIClient = {
       data: [{ embedding: Array.from({ length: 1536 }, () => 0.1) }],
     })),
   },
-  responses: {
-    create: vi.fn(),
-  },
   chat: {
     completions: {
       create: vi.fn(async () => ({
@@ -24,11 +21,8 @@ vi.mock("openai", () => ({
   default: mocks.OpenAI,
 }));
 
-describe("createOpenAIClient", () => {
+describe("createOpenRouterClient", () => {
   const originalEnv = {
-    LLM_PROVIDER: process.env.LLM_PROVIDER,
-    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-    OPENAI_BASE_URL: process.env.OPENAI_BASE_URL,
     OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
     OPENROUTER_BASE_URL: process.env.OPENROUTER_BASE_URL,
     OPENROUTER_MODEL: process.env.OPENROUTER_MODEL,
@@ -37,9 +31,6 @@ describe("createOpenAIClient", () => {
   };
 
   afterEach(() => {
-    restoreEnvValue("LLM_PROVIDER", originalEnv.LLM_PROVIDER);
-    restoreEnvValue("OPENAI_API_KEY", originalEnv.OPENAI_API_KEY);
-    restoreEnvValue("OPENAI_BASE_URL", originalEnv.OPENAI_BASE_URL);
     restoreEnvValue("OPENROUTER_API_KEY", originalEnv.OPENROUTER_API_KEY);
     restoreEnvValue("OPENROUTER_BASE_URL", originalEnv.OPENROUTER_BASE_URL);
     restoreEnvValue("OPENROUTER_MODEL", originalEnv.OPENROUTER_MODEL);
@@ -58,13 +49,12 @@ describe("createOpenAIClient", () => {
     process.env.EMBEDDING_DIMENSION = "1536";
 
     const { createOpenRouterClient } =
-      await import("@/lib/services/openai/client");
-    const { OpenAIService } = await import("@/lib/services/openai/service");
+      await import("@/lib/services/llm/client");
+    const { LLMService } = await import("@/lib/services/llm/service");
 
     const client = createOpenRouterClient();
-    const service = new OpenAIService({
+    const service = new LLMService({
       embedding: client,
-      openAI: { responses: { create: vi.fn() } },
       openRouter: { chat: { completions: { create: vi.fn() } } },
     } as never);
 
@@ -81,21 +71,19 @@ describe("createOpenAIClient", () => {
     });
   });
 
-  it("configures generation for OpenRouter by default", async () => {
+  it("configures generation for OpenRouter", async () => {
     vi.resetModules();
-    process.env.LLM_PROVIDER = "openrouter";
     process.env.OPENROUTER_API_KEY = "test-openrouter-key";
     process.env.OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
     process.env.OPENROUTER_MODEL = "openai/gpt-5-mini";
 
     const { createOpenRouterClient } =
-      await import("@/lib/services/openai/client");
-    const { OpenAIService } = await import("@/lib/services/openai/service");
+      await import("@/lib/services/llm/client");
+    const { LLMService } = await import("@/lib/services/llm/service");
 
     const client = createOpenRouterClient();
-    const service = new OpenAIService({
+    const service = new LLMService({
       embedding: { embeddings: { create: vi.fn() } },
-      openAI: { responses: { create: vi.fn() } },
       openRouter: client,
     } as never);
 

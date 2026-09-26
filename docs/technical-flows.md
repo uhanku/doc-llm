@@ -17,7 +17,7 @@ flowchart TD
     I --> J["Worker loads PDF from storage"]
     J --> K["Extract text from PDF"]
     K --> L["Split text into chunks"]
-    L --> M["Generate embeddings with OpenAI service"]
+    L --> M["Generate embeddings with LLM service"]
     M --> N["Store chunks and vectors in PostgreSQL pgvector"]
     N --> O["Mark ingestion job complete"]
     O --> P["User opens dashboard"]

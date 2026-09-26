@@ -11,7 +11,7 @@ import {
 import { createIngestionJob } from "@/lib/services/ingestion/jobs";
 import { TextExtractionService } from "@/lib/services/ingestion/extractor";
 import { IngestionProcessor } from "@/lib/services/ingestion/processor";
-import { createOpenAIService } from "@/lib/services/openai/service";
+import { createLLMService } from "@/lib/services/llm/service";
 import type { ObjectStorageService } from "@/server/storage";
 import { getSeededUser } from "../../helpers/db";
 import { createPdfBuffer } from "../../helpers/files";
@@ -66,7 +66,7 @@ async function ingestPdfFixtureForSeededUser() {
   });
   const processor = new IngestionProcessor({
     extractor: new TextExtractionService(),
-    openAI: createOpenAIService(),
+    llm: createLLMService(),
     storage: createPdfStorage(pdfBuffer),
   });
 
@@ -84,7 +84,7 @@ async function ingestPdfFixtureForSeededUser() {
 
 describe("embedding chunk retrieval integration", () => {
   it("ingests demon_slayer_comments.pdf with OpenRouter embeddings and retrieves relevant pgvector chunks", async () => {
-    const sampleEmbedding = await createOpenAIService().createEmbeddings([
+    const sampleEmbedding = await createLLMService().createEmbeddings([
       question,
     ]);
 

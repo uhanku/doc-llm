@@ -63,7 +63,7 @@ describe("IngestionProcessor", () => {
         },
       }),
     };
-    const openAI = {
+    const llm = {
       createEmbeddings: vi
         .fn()
         .mockResolvedValue([
@@ -74,7 +74,7 @@ describe("IngestionProcessor", () => {
     const processor = new IngestionProcessor({
       storage,
       extractor: extractor as never,
-      openAI: openAI as never,
+      llm: llm as never,
     });
 
     await expect(
@@ -148,7 +148,7 @@ describe("IngestionProcessor", () => {
         getPublicUrl: vi.fn(),
       },
       extractor: { extract: vi.fn() } as never,
-      openAI: { createEmbeddings: vi.fn() } as never,
+      llm: { createEmbeddings: vi.fn() } as never,
     });
 
     await expect(
@@ -194,7 +194,7 @@ describe("IngestionProcessor", () => {
           metadata: { extractedAs: "pdf" },
         }),
       } as never,
-      openAI: { createEmbeddings: vi.fn() } as never,
+      llm: { createEmbeddings: vi.fn() } as never,
     });
 
     await expect(
@@ -248,7 +248,7 @@ describe("IngestionProcessor", () => {
           metadata: { extractedAs: "pdf" },
         }),
       } as never,
-      openAI: {
+      llm: {
         createEmbeddings: vi.fn().mockResolvedValue([]),
       } as never,
     });

@@ -41,10 +41,6 @@ const envSchema = z
     TEST_DATABASE_URL: z.string().min(1).optional(),
     NEXTAUTH_SECRET: z.string().min(1),
     NEXTAUTH_URL: z.string().url(),
-    LLM_PROVIDER: z.enum(["openrouter", "openai"]).default("openrouter"),
-    OPENAI_API_KEY: optionalEnvString(z.string().min(1)),
-    OPENAI_BASE_URL: optionalEnvString(z.string().url()),
-    OPENAI_GENERATION_MODEL: optionalEnvString(z.string().min(1)),
     OPENROUTER_API_KEY: optionalEnvString(z.string().min(1)),
     OPENROUTER_BASE_URL: z
       .string()
@@ -95,18 +91,7 @@ const envSchema = z
   })
   .superRefine((value, context) => {
     requireProviderEnv(context, "OPENROUTER_API_KEY", value.OPENROUTER_API_KEY);
-
-    if (value.LLM_PROVIDER === "openrouter") {
-      requireProviderEnv(context, "OPENROUTER_MODEL", value.OPENROUTER_MODEL);
-      return;
-    }
-
-    requireProviderEnv(context, "OPENAI_API_KEY", value.OPENAI_API_KEY);
-    requireProviderEnv(
-      context,
-      "OPENAI_GENERATION_MODEL",
-      value.OPENAI_GENERATION_MODEL,
-    );
+    requireProviderEnv(context, "OPENROUTER_MODEL", value.OPENROUTER_MODEL);
   });
 
 function requireProviderEnv(
@@ -121,7 +106,7 @@ function requireProviderEnv(
   context.addIssue({
     code: z.ZodIssueCode.custom,
     path: [name],
-    message: `${name} is required for the selected LLM provider.`,
+    message: `${name} is required.`,
   });
 }
 

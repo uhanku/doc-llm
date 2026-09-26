@@ -86,10 +86,10 @@ function parseArgs(args: string[]): CliOptions {
 
 async function main() {
   const { documentId, question, limit } = parseArgs(process.argv.slice(2));
-  const [{ pool }, queryService, { createOpenAIService }] = await Promise.all([
+  const [{ pool }, queryService, { createLLMService }] = await Promise.all([
     import("../src/db/client"),
     import("../src/lib/services/documents/query"),
-    import("../src/lib/services/openai/service"),
+    import("../src/lib/services/llm/service"),
   ]);
 
   try {
@@ -106,7 +106,7 @@ async function main() {
     }
 
     const sources = queryService.formatDocumentSources(matches);
-    const answer = await createOpenAIService().generateText({
+    const answer = await createLLMService().generateText({
       instructions:
         "Answer only from the supplied document context. If the context is insufficient, say so clearly.",
       input: `Question:\n${question}\n\nContext:\n${sources}`,

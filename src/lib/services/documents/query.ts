@@ -2,11 +2,11 @@ import type { QueryResult } from "pg";
 
 import { pool } from "@/db/client";
 import { env } from "@/lib/env";
-import { createOpenAIService } from "@/lib/services/openai/service";
+import { createLLMService } from "@/lib/services/llm/service";
 import type { QueryResultChunk } from "@/types/ingestion";
 
 type EmbeddingProvider = Pick<
-  ReturnType<typeof createOpenAIService>,
+  ReturnType<typeof createLLMService>,
   "createEmbeddings"
 >;
 
@@ -47,7 +47,7 @@ export async function fetchRelevantChunks(
   dependencies: FetchRelevantChunksDependencies = {},
 ): Promise<QueryResultChunk[]> {
   const embeddingProvider =
-    dependencies.embeddingProvider ?? createOpenAIService();
+    dependencies.embeddingProvider ?? createLLMService();
   const database = dependencies.database ?? pool;
   const limit = options.limit ?? env.INGESTION_QUERY_MATCH_LIMIT;
 
@@ -126,10 +126,10 @@ export async function generateAnswerFromDocuments(input: {
     };
   }
 
-  const openAI = createOpenAIService();
+  const llm = createLLMService();
   const context = formatDocumentSources(matches);
 
-  const answer = await openAI.generateText({
+  const answer = await llm.generateText({
     instructions:
       "Answer only from the supplied document context. If the context is insufficient, say so clearly.",
     input: `Question:\n${input.question}\n\nContext:\n${context}`,

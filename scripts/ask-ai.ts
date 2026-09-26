@@ -25,10 +25,9 @@ function parseQuestion(args: string[]) {
 
 async function main() {
   const question = parseQuestion(process.argv.slice(2));
-  const { createOpenAIService } =
-    await import("../src/lib/services/openai/service");
+  const { createLLMService } = await import("../src/lib/services/llm/service");
 
-  const service = createOpenAIService();
+  const service = createLLMService();
   const response = await service.generateText({
     input: question,
   });

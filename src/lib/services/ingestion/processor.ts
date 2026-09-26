@@ -9,7 +9,7 @@ import {
 } from "@/lib/services/ingestion/jobs";
 import { chunkText } from "@/lib/services/ingestion/chunking";
 import { TextExtractionService } from "@/lib/services/ingestion/extractor";
-import type { OpenAIService } from "@/lib/services/openai/service";
+import type { LLMService } from "@/lib/services/llm/service";
 import {
   getObjectStorageService,
   StorageObjectNotFoundError,
@@ -22,7 +22,7 @@ export class IngestionProcessor {
   constructor(
     private readonly dependencies: {
       extractor: TextExtractionService;
-      openAI: OpenAIService;
+      llm: LLMService;
       storage?: ObjectStorageService;
     },
   ) {}
@@ -66,7 +66,7 @@ export class IngestionProcessor {
           ...extracted.metadata,
         },
       }));
-      const embeddings = await this.dependencies.openAI.createEmbeddings(
+      const embeddings = await this.dependencies.llm.createEmbeddings(
         chunks.map((chunk) => chunk.content),
       );
 

@@ -5,7 +5,7 @@ import { claimNextDocumentChatJob } from "@/lib/services/documents/chat";
 import { claimNextPendingJob } from "@/lib/services/ingestion/jobs";
 import { IngestionProcessor } from "@/lib/services/ingestion/processor";
 import { TextExtractionService } from "@/lib/services/ingestion/extractor";
-import { createOpenAIService } from "@/lib/services/openai/service";
+import { createLLMService } from "@/lib/services/llm/service";
 import { sleep } from "@/lib/utils";
 import { DocumentChatJobProcessor } from "@/worker/chat-processor";
 import { startWorker } from "@/worker/runner";
@@ -13,7 +13,7 @@ import { startWorker } from "@/worker/runner";
 async function main(): Promise<void> {
   const processor = new IngestionProcessor({
     extractor: new TextExtractionService(),
-    openAI: createOpenAIService(),
+    llm: createLLMService(),
   });
 
   await Promise.all([

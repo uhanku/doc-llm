@@ -2,19 +2,15 @@ import type OpenAI from "openai";
 
 import { DEFAULT_EMBEDDING_DIMENSION } from "@/lib/constants";
 import { env } from "@/lib/env";
-import {
-  createOpenAIClient,
-  createOpenRouterClient,
-} from "@/lib/services/openai/client";
+import { createOpenRouterClient } from "@/lib/services/llm/client";
 
-type OpenAIServiceClients = {
+type LLMServiceClients = {
   embedding: Pick<OpenAI, "embeddings">;
-  openAI?: Pick<OpenAI, "responses">;
   openRouter?: Pick<OpenAI, "chat">;
 };
 
-export class OpenAIService {
-  constructor(private readonly clients: OpenAIServiceClients) {}
+export class LLMService {
+  constructor(private readonly clients: LLMServiceClients) {}
 
   async createEmbeddings(input: string[]): Promise<number[][]> {
     if (input.length === 0) {
@@ -39,44 +35,6 @@ export class OpenAIService {
   }
 
   async generateText(params: {
-    instructions?: string;
-    input: string;
-  }): Promise<string> {
-    if (env.LLM_PROVIDER === "openrouter") {
-      return this.generateOpenRouterText(params);
-    }
-
-    return this.generateOpenAIText(params);
-  }
-
-  private async generateOpenAIText(params: {
-    instructions?: string;
-    input: string;
-  }): Promise<string> {
-    if (!env.OPENAI_GENERATION_MODEL) {
-      throw new Error("OpenAI generation is not configured.");
-    }
-
-    const request: {
-      model: string;
-      input: string;
-      instructions?: string | null;
-    } = {
-      model: env.OPENAI_GENERATION_MODEL,
-      input: params.input,
-    };
-
-    if (params.instructions) {
-      request.instructions = params.instructions;
-    }
-
-    const client = this.clients.openAI ?? createOpenAIClient();
-    const response = await client.responses.create(request);
-
-    return response.output_text.trim();
-  }
-
-  private async generateOpenRouterText(params: {
     instructions?: string;
     input: string;
   }): Promise<string> {
@@ -116,23 +74,17 @@ export class OpenAIService {
   }
 }
 
-let openAIService: OpenAIService | undefined;
+let llmService: LLMService | undefined;
 
-export function createOpenAIService(): OpenAIService {
-  if (!openAIService) {
-    const openRouter = createOpenRouterClient();
-    const clients: OpenAIServiceClients = {
-      embedding: openRouter,
-    };
+export function createLLMService(): LLMService {
+  if (!llmService) {
+    const client = createOpenRouterClient();
 
-    if (env.LLM_PROVIDER === "openrouter") {
-      clients.openRouter = openRouter;
-    } else {
-      clients.openAI = createOpenAIClient();
-    }
-
-    openAIService = new OpenAIService(clients);
+    llmService = new LLMService({
+      embedding: client,
+      openRouter: client,
+    });
   }
 
-  return openAIService;
+  return llmService;
 }

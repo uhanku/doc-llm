@@ -1,8 +1,8 @@
 import { DEFAULT_EMBEDDING_DIMENSION } from "@/lib/constants";
 import { env } from "@/lib/env";
-import { OpenAIService } from "@/lib/services/openai/service";
+import { LLMService } from "@/lib/services/llm/service";
 
-describe("OpenAIService", () => {
+describe("LLMService", () => {
   it("maps embedding responses into vectors", async () => {
     const client = {
       embeddings: {
@@ -17,11 +17,6 @@ describe("OpenAIService", () => {
           ],
         }),
       },
-      responses: {
-        create: async () => ({
-          output_text: "Hello world",
-        }),
-      },
       chat: {
         completions: {
           create: async () => ({
@@ -31,9 +26,8 @@ describe("OpenAIService", () => {
       },
     };
 
-    const service = new OpenAIService({
+    const service = new LLMService({
       embedding: client,
-      openAI: client,
       openRouter: client,
     } as never);
 
@@ -60,11 +54,6 @@ describe("OpenAIService", () => {
           ],
         }),
       },
-      responses: {
-        create: async () => ({
-          output_text: "  Generated answer  ",
-        }),
-      },
       chat: {
         completions: {
           create,
@@ -72,9 +61,8 @@ describe("OpenAIService", () => {
       },
     };
 
-    const service = new OpenAIService({
+    const service = new LLMService({
       embedding: client,
-      openAI: client,
       openRouter: client,
     } as never);
 
@@ -110,11 +98,6 @@ describe("OpenAIService", () => {
           ],
         }),
       },
-      responses: {
-        create: async () => ({
-          output_text: "Generated answer",
-        }),
-      },
       chat: {
         completions: {
           create: async () => ({
@@ -124,9 +107,8 @@ describe("OpenAIService", () => {
       },
     };
 
-    const service = new OpenAIService({
+    const service = new LLMService({
       embedding: client,
-      openAI: client,
       openRouter: client,
     } as never);
 

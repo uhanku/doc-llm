@@ -2,7 +2,7 @@ import { vi } from "vitest";
 
 import { DEFAULT_EMBEDDING_DIMENSION } from "@/lib/constants";
 
-export function createMockOpenAIService() {
+export function createMockLLMService() {
   return {
     createEmbeddings: vi.fn(async (input: string[]) =>
       input.map((_, index) =>
